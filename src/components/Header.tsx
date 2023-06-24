@@ -5,6 +5,7 @@ import { createStyles } from "@mantine/core"
 import {FaWhatsapp,FaInstagram,FaShoppingCart} from 'react-icons/fa'
 import Image from "next/image"
 import logo from "../../public/logo.png"
+import Link from "next/link"
 const useStyles = createStyles((theme) => ({
   header: {
     position:"fixed",
@@ -32,11 +33,10 @@ const Header = () => {
         <Flex style={{flex:1}} mt="20px" color="blue" justify="space-between">
           <Image alt="logo" src={logo} width={140} />
 
-         <Flex className={classes.nav} style={{flex:3,justifyContent:"center"}}>
+         <Flex className={classes.nav} style={{flex:6,justifyContent:"center"}}>
           <nav >
             <ul style={{ display: "flex",gap:"10px"}}>
-              <li>ВЫБОР ДЕСЕРТОВ</li>
-              <li>Выбор</li>
+              <li><Link href="/products">ВЫБОР ДЕСЕРТОВ</Link></li>
             </ul>
           </nav>
          </Flex>

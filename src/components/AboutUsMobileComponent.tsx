@@ -1,4 +1,4 @@
-import { Flex, createStyles } from '@mantine/core'
+import { Center, Flex, createStyles } from '@mantine/core'
 import React from 'react'
 import Conntent1 from "../../public/content1.jpg"
 import Conntent2 from "../../public/content2.jpg"
@@ -16,6 +16,7 @@ const useStyles = createStyles((theme) => ({
       padding: "8px",
       margin: "10px 0",
       display: "flex",
+      textAlign:"justify",
       flexDirection: "column",
       justifyContent: "center",
   
@@ -25,7 +26,8 @@ const useStyles = createStyles((theme) => ({
   
       "& img": {
         borderRadius: "8px",
-        width: "100%",
+        width: "75%",
+        margin: "0 auto",
         objectFit: "cover",
         height: "auto",
       },
@@ -36,16 +38,19 @@ const useStyles = createStyles((theme) => ({
 const AboutUsMobileComponent = () =>{
     const { classes } = useStyles()
     return (
-    <>
+    <div className={classes.galery}>
+    <Center fz={20}>
+          <h2>Почему выбирают нас</h2>
+    </Center>
         <Flex
-          className={classes.galery}
+          
           style={{ flex: 1, flexWrap: "wrap" }}
           gap={20}
           pt={40}
         >
           <Flex style={{ flex: 1 }} direction="column">
             <div className={classes.flexContent}>
-              <Image width={50} height={50} alt="c" src="/content1.jpg" />
+              <Image src={Conntent1} alt='1' />
             </div>
 
             <div className={classes.flexContent}>
@@ -101,7 +106,7 @@ const AboutUsMobileComponent = () =>{
             </div>
           </Flex>
         </Flex>
-    </>
+    </div>
     )
 }
 

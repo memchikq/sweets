@@ -1,27 +1,25 @@
-'use client'
-import AboutUsComponent from '@/components/AboutUsComponent'
-import AboutUsMobileComponent from '@/components/AboutUsMobileComponent'
-import ProductGalleryComponent from '@/components/ProductGalleryComponent'
-import { Center, Container } from '@mantine/core'
-import React from 'react'
+"use client"
+import AboutUsComponent from "@/components/AboutUsComponent"
+import AboutUsMobileComponent from "@/components/AboutUsMobileComponent"
+import AUs from '@/components/AUs'
+import DeliveryInfoComponent from "@/components/DeliveryInfoComponent"
+import ProductGalleryComponent from "@/components/ProductGalleryComponent"
+import { Center, Container, Divider } from "@mantine/core"
+import React from "react"
 
-const Home = () =>{
-    
-    return (
+const Home = () => {
+  return (
     <>
-    <div style={{ marginTop: "40px" }}>
-      <Container size="90%">
-        <Center fz={20}>
-          <h2>Почему выбирают нас</h2>
-        </Center>
-        <AboutUsComponent />
-        <AboutUsMobileComponent/>
-
-        <ProductGalleryComponent/>
-      </Container>
-    </div>
+        <Container mt="40px" size="90%">
+          <Divider my="sm" />
+          <AUs />
+          <Divider my="xs" />
+          <ProductGalleryComponent />
+          <Divider my="xs" />
+          <DeliveryInfoComponent/>
+        </Container>
     </>
-    )
+  )
 }
 
 export default Home
