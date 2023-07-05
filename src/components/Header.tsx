@@ -6,6 +6,7 @@ import {FaWhatsapp,FaInstagram,FaShoppingCart} from 'react-icons/fa'
 import Image from "next/image"
 import logo from "../../public/logo.png"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 const useStyles = createStyles((theme) => ({
   header: {
     position:"fixed",
@@ -27,11 +28,12 @@ const useStyles = createStyles((theme) => ({
 }))
 const Header = () => {
   const { classes } = useStyles()
+  const router = useRouter()
   return (
     <header className={classes.header}>
       <Container  size="100%">
         <Flex style={{flex:1}} mt="20px" color="blue" justify="space-between">
-          <Image alt="logo" src={logo} width={140} />
+          <Image style={{cursor:"pointer"}} onClick={()=> router.push("/")} alt="logo" src={logo} width={140} />
 
          <Flex className={classes.nav} style={{flex:6,justifyContent:"center"}}>
           <nav >

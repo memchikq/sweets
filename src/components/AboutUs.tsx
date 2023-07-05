@@ -1,5 +1,5 @@
-import { Center, Divider, Flex, createStyles } from "@mantine/core"
-import Image from "next/image"
+'use client'
+import { Center, Container, Divider, Flex, createStyles } from "@mantine/core"
 import {
   FaTrophy,
   FaThumbsUp,
@@ -29,6 +29,7 @@ const About = () => {
   const { classes } = useStyles()
   return (
     <section>
+      <Container mt="40px" size="90%">
       <Center fz={20}>
         <h2>Почему выбирают нас</h2>
       </Center>
@@ -102,6 +103,7 @@ const About = () => {
           </Flex>
         </Flex>
       </Flex>
+      </Container>
     </section>
   )
 }

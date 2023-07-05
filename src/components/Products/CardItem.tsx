@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Badge, Card, CardSection, Group, Text } from "@mantine/core"
+import { Badge, Button, Card, CardSection, Group, Text } from "@mantine/core"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
@@ -44,7 +44,8 @@ const CardItem: FC<CardItemProps> = ({
         </Badge>
       </Group>
 
-      <Text>{description}</Text>
+      <Text >{description}</Text>
+
     </Card>
   )
 }

@@ -1,5 +1,5 @@
 "use client"
-import { Center, Flex, createStyles } from "@mantine/core"
+import { Center, Container, Flex, createStyles } from "@mantine/core"
 import { FaCcMastercard,FaCcVisa } from "react-icons/fa"
 import gift from '../../public/gift.png'
 import React from "react"
@@ -36,6 +36,7 @@ const DeliveryInfoComponent = () => {
 
   return (
     <section style={{marginBottom:"10px"}}>
+      <Container mt="40px" size="90%">
       <Center fz={20}>
         <h2>Оплата и доставка</h2>
       </Center>
@@ -56,6 +57,7 @@ const DeliveryInfoComponent = () => {
         </Flex>
 
       </Flex>
+      </Container>
     </section>
   )
 }

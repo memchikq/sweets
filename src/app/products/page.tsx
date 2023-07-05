@@ -1,16 +1,16 @@
-import { supabase } from "@/lib/db";
-import { supabaseType } from "@/lib/typesOfRow";
-import { getProducts } from "@/utils";
+import { getCategories, getProducts } from "@/utils";
 import ProductsView from "@/view/ProductsView";
-import { Container } from "@mantine/core";
-
+import ListProduct from "@/components/Products/ListProduct"
 
 export default async function Page({searchParams}:any){
-    const data = await getProducts({query:"a"})
+    const productsData =  getProducts({query:searchParams.c || null})
+    const categoriesData = getCategories()
+    const [products,cateregories] = await Promise.all([productsData,categoriesData])
     return(
         <section style={{flex:"1 0 auto",marginTop:"60px"}}>
-           <ProductsView data={data} />
-           
+           <ListProduct list={cateregories} />
+           <ProductsView data={products} />
+
         </section>
     )
 }

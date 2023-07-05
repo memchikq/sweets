@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main>
       <Section/>
-      <Home/>
+      <Home />
     </main>
   )
 }

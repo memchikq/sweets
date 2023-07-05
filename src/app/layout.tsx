@@ -10,18 +10,23 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode
+  modal: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <UiProvider>
-        <body style={{display:"flex",flexDirection:"column",minHeight:"100vh"}}>
-          <Header/>
+      <body
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        <UiProvider>
+          <Header />
           {children}
-          <Footer/>
-        </body>
-      </UiProvider>
+          {modal}
+          <Footer />
+        </UiProvider>
+      </body>
     </html>
   )
 }

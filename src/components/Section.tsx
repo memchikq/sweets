@@ -42,7 +42,7 @@ const Section = () => {
     <section className={classes.section}>
       <Image
         className={classes.imageBg}
-        alt="image_background"
+        alt="hero image"
         src={background}
       />
       <div

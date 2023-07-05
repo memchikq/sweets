@@ -1,23 +1,21 @@
-"use client"
-import AboutUsComponent from "@/components/AboutUsComponent"
-import AboutUsMobileComponent from "@/components/AboutUsMobileComponent"
-import AUs from '@/components/AUs'
+
+import AboutUs from '@/components/AboutUs'
+import ClientDivider from '@/components/ClientDivider'
 import DeliveryInfoComponent from "@/components/DeliveryInfoComponent"
 import ProductGalleryComponent from "@/components/ProductGalleryComponent"
-import { Center, Container, Divider } from "@mantine/core"
-import React from "react"
+import { getCategories } from '@/utils'
 
-const Home = () => {
+
+const Home = async () => {
+  const categories = await getCategories()
   return (
     <>
-        <Container mt="40px" size="90%">
-          <Divider my="sm" />
-          <AUs />
-          <Divider my="xs" />
-          <ProductGalleryComponent />
-          <Divider my="xs" />
+          <ClientDivider my="xs"/>
+          <AboutUs />
+          <ClientDivider my="xs"/>
+          <ProductGalleryComponent list={categories} />
+          <ClientDivider my="xs"/>
           <DeliveryInfoComponent/>
-        </Container>
     </>
   )
 }
