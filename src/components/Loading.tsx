@@ -1,12 +1,23 @@
-'use client'
-import { Loader } from '@mantine/core';
-const Loading = () =>{
-    
-    return (
+"use client"
+import { Group, Loader } from "@mantine/core"
+import { usePathname } from "next/navigation"
+import ProductsLoading from "./Products/ProductsLoading"
+import ProductsByIdLoading from "./Products/ProductsByIdLoading"
+
+const productsRegex = /^\/products$/
+
+const Loading = () => {
+  const pathname = usePathname()
+
+  return (
     <>
-        <Loader></Loader>
+      {pathname.match(productsRegex) ? (
+        <ProductsLoading/>
+      ) : (
+        <ProductsByIdLoading/>
+      )}
     </>
-    )
+  )
 }
 
 export default Loading

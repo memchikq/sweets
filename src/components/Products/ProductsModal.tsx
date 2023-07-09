@@ -3,15 +3,41 @@ import { FC,useEffect } from "react"
 import { Badge, Button, Divider, Flex, Group, Modal, Space, useMantineTheme } from "@mantine/core"
 import { useRouter } from "next/navigation"
 import { ProductByIdResponseSuccess } from "@/utils"
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import Image from "next/image"
 
+interface CartItemsType {
+  id:number,
+  name:string,
+  picture:string,
+  price:number,
+  number:number
+} 
+
+
 const ModalComponent: FC<{ prdoductData: ProductByIdResponseSuccess }> = ({prdoductData}) => {
+  if (!prdoductData) return null
+  const { id ,name, picture, price, description, structure, weight } = prdoductData[0]
+  const [cartItems, setCartItems] = useLocalStorage<CartItemsType[] | []>({
+    key: 'cart',
+    defaultValue: [],
+  });
+
+  const addToCart = () =>{
+    if(cartItems.length > 0){
+      const cartItem = cartItems.find(v=> v.id === id)
+      if(cartItem){
+        cartItem.number += 1
+        setCartItems([...cartItems])
+        return
+      }
+    }
+    setCartItems((prev:CartItemsType[] | [])=>([...prev,{id,name,picture,price,number: 1}]))
+  }
+
   const [opened, { open, close }] = useDisclosure(false);
   const theme = useMantineTheme();
-  if (!prdoductData) return null
   const router = useRouter()
-  const { name, picture, price, description, structure, weight } = prdoductData[0]
 
   useEffect(()=>{
     open()
@@ -58,9 +84,7 @@ const ModalComponent: FC<{ prdoductData: ProductByIdResponseSuccess }> = ({prdod
         <Space h="md" />
         <Divider/>
         <Space h="md" />
-        <Button color="green">Купить</Button>
-      
-
+        <Button color="green" onClick={addToCart}>Купить</Button>
      
     </Modal>
   )

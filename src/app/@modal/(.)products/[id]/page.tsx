@@ -1,4 +1,4 @@
-import ModalComponent from "@/components/Modal"
+import ModalComponent from "@/components/Products/ProductsModal"
 import { getProductById, getProducts } from "@/utils"
 
 interface PageProps {

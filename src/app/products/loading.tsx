@@ -3,8 +3,8 @@ import Loading from "@/components/Loading"
 const L = () =>{
     
     return (
-    <div style={{marginTop:"100px",color:"red",fontSize:"60px"}}>
-        <Loading></Loading>
+    <div style={{marginTop:"60px",flex:"1 0 auto"}}>
+        <Loading/>
     </div>
     )
 }

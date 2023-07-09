@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Badge, Button, Card, CardSection, Group, Text } from "@mantine/core"
+import { Badge, Card, CardSection, Group, Text } from "@mantine/core"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
@@ -19,6 +19,8 @@ const CardItem: FC<CardItemProps> = ({
   description,
 }) => {
   const router = useRouter()
+  
+
   return (
     <Card h="100%" shadow="sm" padding="lg" radius="md">
       <CardSection>

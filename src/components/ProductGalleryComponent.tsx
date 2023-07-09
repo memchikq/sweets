@@ -1,5 +1,5 @@
 "use client"
-import { Center, Container, Flex, createStyles } from "@mantine/core"
+import { Center, Container, Flex, Skeleton, createStyles } from "@mantine/core"
 import { Carousel } from "@mantine/carousel"
 import { FC,useEffect,useState } from "react"
 import Image from "next/image"
@@ -45,11 +45,14 @@ const ProductGalleryComponent: FC<{
   const { classes } = useStyles()
   const router = useRouter()
   const [products,setProducts] = useState<ResponseApiData>([])
+  const [loading,setLoading] = useState(false)
 
   const fetchData = async(query:number | null) =>{
+    setLoading(true)
     const request = await fetch(`/api/products?c=${query}`)
     const data:{data:ResponseApiData} = await request.json()
     setProducts(data.data)
+    setLoading(false)
 
   }
 
@@ -76,9 +79,16 @@ const ProductGalleryComponent: FC<{
         { maxWidth: 'md', slideSize: '50%' },
         { maxWidth: 'sm', slideSize: '100%',},
       ]}>
-        {products && products.map(v=>(
+        {!loading &&products && products.map(v=>(
           <Carousel.Slide key={v.id}><Image onClick={()=>router.push(`/products/${v.id}`)} className={classes.carouselImage} src={`/uploads/${v.picture}`} width={400} alt="carousel_image" height={300} /></Carousel.Slide>
         ))}
+        {
+          loading && [1,2,3,4].map(v=>(
+            <Carousel.Slide gap={7} key={v}>
+               <Skeleton height={300} width={400} />
+            </Carousel.Slide>
+          ))
+        }
         </Carousel>
       </Container>
     </section>
