@@ -1,7 +1,9 @@
 "use client"
 import { FC,useEffect } from "react"
-import { Badge, Button, Divider, Flex, Group, Modal, Space, useMantineTheme } from "@mantine/core"
-import { useRouter } from "next/navigation"
+import { FaCheckCircle } from "react-icons/fa";
+import { Badge, Button, Divider, Group, Modal, Space, useMantineTheme } from "@mantine/core"
+import { notifications } from '@mantine/notifications';
+import { notFound, useRouter } from "next/navigation"
 import { ProductByIdResponseSuccess } from "@/utils"
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import Image from "next/image"
@@ -16,23 +18,39 @@ interface CartItemsType {
 
 
 const ModalComponent: FC<{ prdoductData: ProductByIdResponseSuccess }> = ({prdoductData}) => {
-  if (!prdoductData) return null
+  if (!prdoductData || !prdoductData.length) return notFound()
   const { id ,name, picture, price, description, structure, weight } = prdoductData[0]
   const [cartItems, setCartItems] = useLocalStorage<CartItemsType[] | []>({
     key: 'cart',
     defaultValue: [],
   });
-
+  
   const addToCart = () =>{
     if(cartItems.length > 0){
       const cartItem = cartItems.find(v=> v.id === id)
       if(cartItem){
+        if (cartItem.number === 9) {
+          notifications.show({
+            message: "Максимальное количество",
+            color: "red",
+          })
+          return
+        }
         cartItem.number += 1
         setCartItems([...cartItems])
+        notifications.show({
+          message: `${cartItem.name} уже в корзине, добавлено + 1 колличество`,
+          color:"green"
+        })
         return
       }
     }
     setCartItems((prev:CartItemsType[] | [])=>([...prev,{id,name,picture,price,number: 1}]))
+    notifications.show({
+      message: 'Добавлено в корзину',
+      icon:<FaCheckCircle color="lime" />,
+      color:"green"
+    })
   }
 
   const [opened, { open, close }] = useDisclosure(false);

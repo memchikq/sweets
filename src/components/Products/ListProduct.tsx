@@ -3,7 +3,6 @@ import { createStyles } from '@mantine/core'
 import {useRouter} from 'next/navigation'
 import {CategoriesResponseSuccess} from "@/utils/index"
 import { FC } from 'react'
-// const list: string[] = ["Пирожные", "Торты", "Пироги", "Печенье"]
 
 const useStyles = createStyles((theme) => ({
     liElement:{
@@ -25,7 +24,7 @@ const ListProduct:FC<{list:CategoriesResponseSuccess}> = ({list}) =>{
     const router = useRouter()
     return (
     <div>
-        <ul style={{display:"flex", justifyContent:"center"}}>
+        <ul style={{display:"flex", justifyContent:"center",flexWrap:"wrap"}}>
             {list?.map((val,i)=>(
                 <li key={val.id} onClick={()=> router.push(`/products?c=${val.id}`) } className={classes.liElement}>{val.name}</li>
             ))}

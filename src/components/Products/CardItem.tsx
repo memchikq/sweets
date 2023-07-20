@@ -22,17 +22,15 @@ const CardItem: FC<CardItemProps> = ({
   
 
   return (
-    <Card h="100%" shadow="sm" padding="lg" radius="md">
+    <Card  onClick={() => router.push(`/products/${id}`)} style={{cursor:"pointer"}} h="100%" shadow="sm" padding="lg" radius="md">
       <CardSection>
         <Image
-          onClick={() => router.push(`/products/${id}`)}
           alt={name}
           width={400}
           style={{
             width: "100%",
             minHeight: "100%",
             objectFit: "cover",
-            cursor: "pointer",
           }}
           height={300}
           src={`/uploads/${picture}`}

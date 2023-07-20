@@ -10,6 +10,7 @@ const useStyles = createStyles((theme) => ({
   carouselImage: {
     objectFit: "cover",
     cursor:"pointer",
+    transitionTimingFunction:"ease",
     "&:hover":{
       transition:".9s",
       transform: "scale(1.1,1.1)"
@@ -49,8 +50,8 @@ const ProductGalleryComponent: FC<{
 
   const fetchData = async(query:number | null) =>{
     setLoading(true)
-    const request = await fetch(`/api/products?c=${query}`)
-    const data:{data:ResponseApiData} = await request.json()
+    const response = await fetch(`/api/products?c=${query}`)
+    const data:{data:ResponseApiData} = await response.json()
     setProducts(data.data)
     setLoading(false)
 
@@ -85,7 +86,7 @@ const ProductGalleryComponent: FC<{
         {
           loading && [1,2,3,4].map(v=>(
             <Carousel.Slide gap={7} key={v}>
-               <Skeleton height={300} width={400} />
+               <Skeleton height={300} width="100%" />
             </Carousel.Slide>
           ))
         }

@@ -1,8 +1,9 @@
 "use client"
 import React from "react"
-import { Box, Container, Flex, MediaQuery,Burger } from "@mantine/core"
+import {  Container, Flex, Text, Tooltip } from "@mantine/core"
 import { createStyles } from "@mantine/core"
-import {FaWhatsapp,FaInstagram,FaShoppingCart} from 'react-icons/fa'
+import {FaShoppingCart} from 'react-icons/fa'
+import {GiPieSlice} from 'react-icons/gi'
 import Image from "next/image"
 import logo from "../../public/logo.png"
 import Link from "next/link"
@@ -21,9 +22,15 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors.yellow[2],
     },
   },
-  nav:{
+  navElement:{
     [theme.fn.smallerThan("md")]: {
       display:"none"
+    },
+  },
+  navElementMobile:{
+    display:"none",
+    [theme.fn.smallerThan("md")]: {
+      display:"block"
     },
   }
 
@@ -38,21 +45,17 @@ const Header = () => {
         <Flex style={{flex:1}} mt="20px" color="blue" justify="space-between">
           <Image style={{cursor:"pointer"}} onClick={()=> router.push("/")} alt="logo" src={logo} width={140} />
 
-         <Flex className={classes.nav} style={{flex:6,justifyContent:"center"}}>
+         <Flex  style={{flex:6,justifyContent:"end"}}>
           <nav >
             <ul style={{ display: "flex",gap:"10px"}}>
-              <li><Link href="/products">ВЫБОР ДЕСЕРТОВ</Link></li>
+              <li className={classes.navElement}><Link href="/products">ВЫБОР ДЕСЕРТОВ</Link></li>
+              <li className={classes.navElementMobile}><Link href="/products"><GiPieSlice size={30} style={{cursor:"pointer"}} color="red"/>  </Link></li>
             </ul>
           </nav>
          </Flex>
-          <Flex style={{flex:1}} justify="end" gap={10}>
-                <FaWhatsapp style={{cursor:"pointer"}} size={25} color="lime" />
-                <FaInstagram style={{cursor:"pointer"}} size={25} color="pink" />
-                <FaShoppingCart onClick={open} size={25} style={{cursor:"pointer"}} color="gold"/>
+          <Flex style={{flex:0,paddingInline:"8px"}} justify="end" gap={10}>
+                <FaShoppingCart onClick={open} size={30} style={{cursor:"pointer"}} color="gold"/>
          </Flex>
-        <Flex>
-          <Burger opened={false}/>
-        </Flex>
         </Flex>
       </Container>
       <CartModal opened={opened} closeModal={close}></CartModal>   

@@ -10,20 +10,12 @@ import {
   Text,
 } from "@mantine/core"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import Delivery from "./Delivery"
 import { useLocalStorage } from "@mantine/hooks"
-
-interface CartItemsType {
-  id:number,
-  name:string,
-  picture:string,
-  price:number,
-  number:number
-} 
+import {CartItemsType} from './types'
+import Link from "next/link"
 
 const CartModal = ({ opened, closeModal }: any) => {
-  const router = useRouter()
   const [cartItems, setCartItems] = useLocalStorage<CartItemsType[] | []>({
     key: 'cart',
     defaultValue: [],
@@ -74,7 +66,7 @@ const CartModal = ({ opened, closeModal }: any) => {
     >
       <Flex direction="column" gap={18}>
         {cartItems.length === 0 && <Center>Корзина пуста</Center>}
-        {
+        {cartItems.length > 0 &&
           cartItems.map((item)=>(
             <Flex key={item.id} align="center" justify="space-between">
             <Group>
@@ -107,11 +99,13 @@ const CartModal = ({ opened, closeModal }: any) => {
 
         <Group position="right">
           <Text fw="bold">Сумма заказа: {reduceTotalPrice()} тг.</Text>
-          
         </Group>
+          <Group position="right">
+            <Link onClick={closeModal} href="/orders"><Text color="indigo" fw="bold">Просмотр готовых зкакзов</Text></Link>
+          </Group>
         <Divider />
 
-       <Delivery/>
+       <Delivery closeModal={closeModal} cartItems={cartItems}  />
        
       </Flex>
     </Modal>

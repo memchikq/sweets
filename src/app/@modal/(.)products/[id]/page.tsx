@@ -1,12 +1,14 @@
 import ModalComponent from "@/components/Products/ProductsModal"
-import { getProductById, getProducts } from "@/utils"
+import {  getProductById } from "@/utils"
 
-interface PageProps {
-    params:{id:string};
-    searchParams?:any
-} 
 
-const Page = async (props:PageProps) =>{
+
+type Props = {
+    params: { id: string | number }
+    searchParams: { [key: string]: string | string[] | undefined }
+  }
+   
+const Page = async (props:Props) =>{
     
     const productData = await getProductById(props.params.id)
     return <ModalComponent prdoductData={productData} />

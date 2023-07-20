@@ -16,6 +16,7 @@ const useStyles = createStyles((theme) => ({
     height: "100vh",
     position: "absolute",
     objectFit: "cover",
+    opacity:0.6,
     zIndex: -1,
   },
   headerText: {
@@ -54,8 +55,7 @@ const Section = () => {
         }}
       >
         <div className={classes.headerText}>
-          <h1>Sweet Mania - сладкое безумие!</h1>
-          <p>Изысканные десерты и торты, созданные с любовью и страстью</p>
+          <h1>Sweet Mania - сладости на любой вкус!</h1>
         </div>
       </div>
     </section>

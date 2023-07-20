@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
@@ -24,6 +24,39 @@ export interface Database {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: number
+          ip: string
+          order_items: Json
+          total_price: number
+          typePayment: string
+          url: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: number
+          ip: string
+          order_items: Json
+          total_price: number
+          typePayment: string
+          url: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: number
+          ip?: string
+          order_items?: Json
+          total_price?: number
+          typePayment?: string
+          url?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           cat_id: number
@@ -37,10 +70,10 @@ export interface Database {
         }
         Insert: {
           cat_id: number
-          description?: string
+          description: string
           id?: number
           name?: string
-          picture?: string
+          picture: string
           price?: number
           structure?: string
           weight?: number

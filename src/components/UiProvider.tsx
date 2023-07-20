@@ -1,5 +1,6 @@
 "use client"
 import { MantineProvider } from "@mantine/core"
+import { Notifications } from '@mantine/notifications';
 import React from "react"
 
 const UiProvider = ({ children }: { children: React.ReactNode }) => {
@@ -11,6 +12,7 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
         colorScheme: "dark",
       }}
     >
+      <Notifications/>
       {children}
     </MantineProvider>
   )
