@@ -1,6 +1,7 @@
 "use client"
 import { CartItemsType } from "@/components/Cart/types"
-import { GetOrdersResponseSuccess } from "@/utils"
+import OrderLoading from "@/components/OrderLoading"
+import { GetOrderResponseError, GetOrdersResponseSuccess } from "@/utils"
 import {
   Badge,
   Button,
@@ -13,64 +14,15 @@ import {
 } from "@mantine/core"
 import { notifications } from "@mantine/notifications"
 import Link from "next/link"
-import {useState} from 'react'
+import { useRouter } from "next/navigation"
+import {useEffect, useState} from 'react'
 
-const arr = [
-  {
-    id: 1,
-    completed: true,
-    totalPrice: "30000",
-    typePayment: "locale",
-    order_items: [
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-    ],
-  },
-  {
-    id: 1,
-    completed: false,
-    totalPrice: "30000",
-    typePayment: "online",
-    order_items: [
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-    ],
-  },
-  {
-    id: 1,
-    completed: true,
-    totalPrice: "30000",
-    typePayment: "local",
-    order_items: [
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-    ],
-  },
-  {
-    id: 1,
-    completed: true,
-    totalPrice: "30000",
-    typePayment: "online",
-    order_items: [
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-      { id: 1, name: "Дебош", number: 4, price: "3000" },
-    ],
-  },
-]
-const OrdersView:React.FC<{data:GetOrdersResponseSuccess}> = ({data}) => {
-  const [loading,setLoading] = useState(false)
+const OrdersView:React.FC = () => {
+  const [loading,setLoading] = useState(true)
+  const [data,setData] = useState<GetOrdersResponseSuccess>([])
+  const router = useRouter() 
+  
+  
   const cancleOrder = async (id:number) => {
     try{
       setLoading(true)
@@ -78,11 +30,13 @@ const OrdersView:React.FC<{data:GetOrdersResponseSuccess}> = ({data}) => {
       
       const {message} = await response.json()
       
+      
       notifications.show({
         message: `${message}`,
         color: response.ok ? "green" : "red",
       })
       
+      if(response.ok) getOrders()
     }
     catch(e){
       notifications.show({
@@ -94,6 +48,46 @@ const OrdersView:React.FC<{data:GetOrdersResponseSuccess}> = ({data}) => {
       setLoading(false)
     }
   }
+  
+  const getOrders = async () =>{
+    try{
+      setLoading(true)
+      const response = await fetch("/api/orders",{ cache: 'no-store' })
+      const {data}:{data:GetOrdersResponseSuccess} = await response.json()
+      if(response.ok) return setData(data)
+      
+      const {message} = await response.json()
+      
+      notifications.show({
+        message: `${message}`,
+        color: "red",
+      })
+      
+      
+    }
+    catch(e){
+      notifications.show({
+        message: `Ошибка при получении заказов`,
+        color: "red",
+      })
+    }
+    finally{
+      setLoading(false)
+    }
+  }
+  
+  const convertTime = (time:string) =>{
+    const date = new Date(time)
+    
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} | ${date.getHours()}:${date.getMinutes()}`
+  }
+  
+  useEffect(()=>{
+    getOrders()
+  },[])
+  
+  if(loading) return <OrderLoading/>
+
   return (
     <section>
       <Container size="sm">
@@ -112,7 +106,7 @@ const OrdersView:React.FC<{data:GetOrdersResponseSuccess}> = ({data}) => {
             >
               <Group position="center">
               <Text>Заказа №{v.id}</Text>
-              <Text>Создан 12.03.2023 13:00</Text>
+              <Text>Создан {convertTime(v.created_at)}</Text>
                 {v.typePayment == "local" ? (
                   <Badge color="gray">Оплата у курьера</Badge>
                 ) : v.completed ? (
@@ -139,17 +133,17 @@ const OrdersView:React.FC<{data:GetOrdersResponseSuccess}> = ({data}) => {
               <Group position="right" m={4}>
                 <Flex direction="column">
 
-                <Text>Общая сумма: {v.total_price} тг.</Text>
+                <Text my={6}>Общая сумма: {v.total_price} тг.</Text>
                 {!v.completed && v.typePayment == "online" ?  
                 <Link style={{color:"lime"}} href={`/payment?p=${v.url}`}>Продолжить оплату</Link>
                 : ""
             }
-              <Button disabled={loading} onClick={()=>cancleOrder(v.id)} size="xs" color="red">Отменить заказ</Button>
+              <Button mt={8} disabled={loading} onClick={()=>cancleOrder(v.id)} size="xs" color="red">Отменить заказ</Button>
             </Flex>
               </Group>
               <Divider/>
             </Spoiler>
-          )):<Text>Список заказвов пуст</Text>}
+          )):<Text>Список заказов пуст</Text>}
         </Flex>
       </Container>
     </section>

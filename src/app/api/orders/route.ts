@@ -1,7 +1,6 @@
-import { supabase } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import {CartItemsType} from '@/components/Cart/types'
-import { addOrder, getProducts } from "@/utils"
+import { addOrder, getOrders, getProducts } from "@/utils"
 import { checkInvalidData } from "@/utils/checkInvalidData"
 import { calculateTotalPrice } from "@/utils/calculateTotalPrice"
 
@@ -16,8 +15,8 @@ interface Body {
 export async function POST(request: NextRequest) {
   const body:Body = await request.json()
   const products = await getProducts({query:null})
-  const isProd = process.env.NODE_ENV
-  const ipAdress = isProd == "production" ? request.ip : request.headers.get("x-forwarded-for")?.split(/, /)[0] 
+
+  const ipAdress = request.headers.get("x-forwarded-for")?.split(/, /)[0] 
 
   if(products === null || !products.length) return NextResponse.json({message:"Произошла ошибка на сервере"},{status:500})
 
@@ -39,4 +38,15 @@ export async function POST(request: NextRequest) {
 
 
   return NextResponse.json({data})
+}
+
+
+export async function GET(request: NextRequest) {
+  const ipAdress = request.headers.get("x-forwarded-for")?.split(/, /)[0] 
+  const {data,error} = await getOrders(ipAdress || "0")
+
+  if(error) return NextResponse.json({message:"Ошибка на сервере"},{status:500})
+
+  return NextResponse.json({data})
+
 }

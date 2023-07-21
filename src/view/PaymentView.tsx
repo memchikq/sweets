@@ -14,15 +14,16 @@ import {
 } from "@mantine/core"
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa6"
 import { GetOrderResponseSuccess } from "@/utils"
-import { redirect, useRouter, useSearchParams } from "next/navigation"
+import {  notFound, redirect, useRouter} from "next/navigation"
 import { useState } from "react"
 import { notifications } from "@mantine/notifications"
 
 
-const PaymentView:React.FC<{data:GetOrderResponseSuccess}> = ({data}) => {
-  if(!data) return redirect("/")
+const PaymentView:React.FC<{data:GetOrderResponseSuccess,url:string}> = ({data,url}) => {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  if(!data) return redirect("/orders")
+  
+  
   const [loading,setLoading] = useState(false)
   const [cardNumber,setCardNumber] = useState("")
   const [cardName,setCardName] = useState("")
@@ -38,10 +39,10 @@ const PaymentView:React.FC<{data:GetOrderResponseSuccess}> = ({data}) => {
       return
     }
     setLoading(true)
-   const request = await fetch("/api/orders/complete",{method:"POST",body:JSON.stringify({url:searchParams.get("p")})})
+   const response = await fetch("/api/orders/complete",{method:"POST",body:JSON.stringify({url})})
    setLoading(false)
-   if(!request.ok) {
-    const error = await request.json()
+   if(!response.ok) {
+    const error = await response.json()
       notifications.show({
         message: error.message,
         color:"red"

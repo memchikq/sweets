@@ -45,7 +45,7 @@ const ProductViewById: FC<{ data: ProductByIdResponseSuccess }> = ({
   if (data === null || !data.length) return notFound()
   const { classes } = useStyles()
   const { id, name, picture, price, description, structure, weight } = data[0]
-  const [cartItems, setCartItems] = useLocalStorage<CartItemsType[] | []>({
+  const [cartItems, setCartItems] = useLocalStorage<CartItemsType[]>({
     key: "cart",
     defaultValue: [],
   })

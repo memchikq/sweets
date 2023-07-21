@@ -103,7 +103,8 @@ const Delivery: FC<{ cartItems: CartItemsType[]; closeModal: () => void }> = ({
           closeModal()
           return
         }
-        router.push("/orders")
+        router.prefetch("/orders")
+        router.replace("/orders")
         closeModal()
       } catch (e) {
         notifications.show({

@@ -16,12 +16,13 @@ import {CartItemsType} from './types'
 import Link from "next/link"
 
 const CartModal = ({ opened, closeModal }: any) => {
-  const [cartItems, setCartItems] = useLocalStorage<CartItemsType[] | []>({
+  const [cartItems, setCartItems] = useLocalStorage<CartItemsType[]>({
     key: 'cart',
     defaultValue: [],
   });
 
   const reduceTotalPrice = () =>{
+    if(!cartItems.length) return 0
     return cartItems.reduce((acc,c)=>{
       const product = c.price * c.number
       return acc + product

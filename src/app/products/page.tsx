@@ -23,9 +23,10 @@ export default async function Page(props:Props){
     if(!products || !cateregories) return notFound()
     return(
         <main style={{flex:"1 0 auto",marginTop:"60px"}}>
+          <section>
            <ListProduct list={cateregories} />
            <ProductsView data={products} />
-
+          </section>
         </main>
     )
 }

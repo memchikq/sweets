@@ -1,4 +1,4 @@
-import { getCategory, getProductById } from '@/utils'
+import { getCategory, getProductById, getProducts } from '@/utils'
 import ProductByIdView from '@/view/ProductByIdView'
 import { Metadata } from 'next'
 
@@ -8,7 +8,16 @@ type Props = {
     params: { id: string | number }
     searchParams: { [key: string]: string | string[] | undefined }
   }
-   
+ 
+  export async function generateStaticParams(){
+    const data = await getProducts({query:null})
+    if(!data) return []
+    return data.map((v)=>({
+      slug:v.id.toString()
+    }))
+  }
+
+
   export async function generateMetadata({ params}: Props): Promise<Metadata> {
     const data = await getProductById(params.id)
     if(data !== null && data.length){

@@ -58,7 +58,7 @@ export async function getOrders(ip:string){
 
   const { data, error } = await supabase.
     from("orders")
-    .select("id,total_price,completed,order_items,url,typePayment")
+    .select("id,total_price,completed,order_items,url,typePayment,created_at")
     .eq("ip",ip)
 
     return {data,error}
