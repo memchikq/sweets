@@ -6,7 +6,7 @@
 
 Стек который я использовал: Next js 13, typescript, mantine (UI), react-imask.
 
-Ссылка [https://sweets-six.vercel.app/](https://sweets-six.vercel.app/) 
+Ссылка [https://sweet-mania.vercel.app/](https://sweet-mania.vercel.app/) 
 
 ---
 
